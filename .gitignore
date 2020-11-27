@@ -1,0 +1,44 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp
+
+# Build
+public/css/main.css
+
+# IDEs
+.vscode
+.idea
+
+# Modules
+node_modules
+bower_components
+
+# folders
+build/
+logs/
+
+# Env
+.env
+
+# Coveralls
+coverage
+
+#OS Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Ignore built ts files
+dist/**/*
