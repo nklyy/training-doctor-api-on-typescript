@@ -18,7 +18,7 @@ const setDoctorModel = new Schema({
   }]
 });
 
-setDoctorModel.path('slots').validate(function (v: string | never[]) {
+setDoctorModel.path('slots').validate(function (v: string[]) {
   const optionDate = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',};
   for (const i of v) {
     const date = new Date(i).toLocaleString("ru-RU", optionDate);

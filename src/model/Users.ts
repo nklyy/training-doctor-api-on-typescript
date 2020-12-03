@@ -7,6 +7,7 @@ const setUserModel = new Schema({
   phone: {
     type: String,
     required: true,
+    unique: true,
     match: [
       /^\+380([ .-]?)[0-9]{2}\1[0-9]{3}\1[0-9]{2}\1[0-9]{2}|^\+7([ .-]?)[0-9]{3}\2[0-9]{3}\2[0-9]{2}\2[0-9]{2}/,
       'Enter correct phone!'
