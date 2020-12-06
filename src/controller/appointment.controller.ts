@@ -69,7 +69,7 @@ class AppointmentController {
       }
 
       logger.info(`| Привет ${user.name}! Вас записали к врачу ${doctor.spec} на такую дату ${registeredDate.toLocaleString("ru-RU", optionDate)}. Хорошего дня!`);
-      res.send(`You were booked to the doctor: ${doctor.name}. Have a good day!`);
+      res.status(201).json({message: `You were booked to the doctor: ${doctor.name}. Have a good day!`});
     } catch (e) {
       res.status(400).json({message: e.message});
     }

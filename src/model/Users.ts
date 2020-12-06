@@ -2,6 +2,7 @@ import {Schema, model, Document} from 'mongoose';
 
 // Interface
 import {IUsers} from '../interfaces/IUsers';
+import {errorLogger} from "../utils/error";
 
 const setUserModel = new Schema({
   phone: {
@@ -20,5 +21,7 @@ const setUserModel = new Schema({
 });
 
 const UserModel = model<IUsers & Document>('User', setUserModel);
+
+UserModel.createIndexes().catch(err => errorLogger.error(err.message));
 
 export default UserModel;
