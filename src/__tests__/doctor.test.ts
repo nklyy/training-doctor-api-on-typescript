@@ -1,6 +1,7 @@
 // Libs
 import supertest from 'supertest';
 import mongoose from "mongoose";
+import moment from "moment";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -170,7 +171,7 @@ describe("PUT Doctor Endpoint", () => {
   it('should return error Date already exist', async (done) => {
     const resp = await server.put('/doctor/add-date').send({
       doctor_id: doctor._id,
-      dateTime: [doctor.slots[0]]
+      dateTime: [moment(doctor.slots[0]).format('YYYY-MM-DD HH:mm')]
     });
 
     expect(resp.status).toBe(400);
@@ -188,7 +189,7 @@ describe("PUT Doctor Endpoint", () => {
 
     const resp = await server.put('/doctor/add-date').send({
       doctor_id: doctor._id,
-      dateTime: [date.setHours(date.getHours() + 2), date.setHours(date.getHours() + 3)]
+      dateTime: [moment(date.setHours(date.getHours() + 2)).format('YYYY-MM-DD HH:mm')]
     });
 
     expect(resp.status).toBe(200);

@@ -1,5 +1,6 @@
 import {Response, Request} from 'express';
 import {CronJob} from 'cron';
+import moment from "moment";
 
 // Utils
 import {logger} from '../utils/logger';
@@ -13,7 +14,6 @@ class AppointmentController {
   public static async MakeAppointment(req: Request, res: Response): Promise<void> {
     try {
       const {user_id, doctor_id, slot} = req.body;
-      const optionDate = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',};
 
       const checkTime = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01]) ([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(slot);
       if (!checkTime) {
@@ -31,7 +31,7 @@ class AppointmentController {
       }
 
       const doctorTime = await DoctorModel.findOne({_id: doctor.id, slots: new Date(slot)});
-      const doctorSlots = doctor.slots.map(i => i.toLocaleString("ru-RU", optionDate));
+      const doctorSlots = doctor.slots.map(i => moment(i).format('YYYY-MM-DD HH:mm'));
       if (!doctorTime) {
         throw new Error(`Date not found. The doctor: ${doctor.name} has these dates: ${(doctorSlots.length) ? doctorSlots : 'No date'} for appointment `);
       }
@@ -53,7 +53,7 @@ class AppointmentController {
         date.setMinutes(dateNow.getMinutes() + 1);
 
         const job = new CronJob(date, (() => {
-          logger.info(`| Привет ${user.name}! Напоминаем что вы записаны к ${doctor.spec} завтра в ${registeredDate.toLocaleString("ru-RU", optionDate)}`);
+          logger.info(`| Привет ${user.name}! Напоминаем что вы записаны к ${doctor.spec} завтра в ${moment(registeredDate).format('YYYY-MM-DD HH:mm')}`);
         }));
         job.start();
       }
@@ -63,12 +63,12 @@ class AppointmentController {
         date.setHours(date.getHours() - 2);
 
         const job = new CronJob(date, (() => {
-          logger.info(`| Привет ${user.name}! Вам через 2 часа к ${doctor.spec} в ${registeredDate.toLocaleString("ru-RU", optionDate)}`);
+          logger.info(`| Привет ${user.name}! Вам через 2 часа к ${doctor.spec} в ${moment(registeredDate).format('YYYY-MM-DD HH:mm')}`);
         }));
         job.start();
       }
 
-      logger.info(`| Привет ${user.name}! Вас записали к врачу ${doctor.spec} на такую дату ${registeredDate.toLocaleString("ru-RU", optionDate)}. Хорошего дня!`);
+      logger.info(`| Привет ${user.name}! Вас записали к врачу ${doctor.spec} на такую дату ${moment(registeredDate).format('YYYY-MM-DD HH:mm')}. Хорошего дня!`);
       res.status(201).json({message: `You were booked to the doctor: ${doctor.name}. Have a good day!`});
     } catch (e) {
       res.status(400).json({message: e.message});

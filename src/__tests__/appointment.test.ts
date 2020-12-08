@@ -1,6 +1,7 @@
 // Libs
 import supertest from 'supertest';
 import mongoose from "mongoose";
+import moment from "moment";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -122,12 +123,10 @@ describe('POST Doctor appointment Endpoint', () => {
   });
 
   it('should return successful', async (done) => {
-    const optionDate = {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',};
-
     const CorrectData = {
       user_id: user._id,
       doctor_id: doctor._id,
-      slot: doctor.slots[0].toLocaleString('ru-RU', optionDate)
+      slot: moment(doctor.slots[0]).format('YYYY-MM-DD HH:mm')
     };
 
     const resp = await server.post('/appointment').send(CorrectData);
