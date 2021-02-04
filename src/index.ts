@@ -1,5 +1,5 @@
 // Libs
-import express, {Request, Response, NextFunction} from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from "body-parser";
 
 // Routs
@@ -13,11 +13,14 @@ const app = express();
 app.use(bodyParser.json());
 
 // Routs
+app.use('/', (req, res) => {
+  res.status(200).json({ message: 'Hello!' });
+});
 app.use('/appointment', appointment);
 app.use('/user', user);
 app.use('/doctor', doctor);
 app.use('*', (req: Request, res: Response, next: NextFunction) => {
-  res.status(404).json({message: `Path ${req.originalUrl} not found!`});
+  res.status(404).json({ message: `Path ${req.originalUrl} not found!` });
   next();
 });
 
