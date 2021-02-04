@@ -13,9 +13,6 @@ const app = express();
 app.use(bodyParser.json());
 
 // Routs
-app.use('/', (req, res) => {
-  res.status(200).json({ message: 'Hello!' });
-});
 app.use('/appointment', appointment);
 app.use('/user', user);
 app.use('/doctor', doctor);
