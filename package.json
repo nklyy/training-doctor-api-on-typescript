@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "ts-node ./src/server.ts",
     "start:build": "node ./dist/server",
+    "postinstall": "tsc",
     "dev": "nodemon ./src/server.ts",
     "test": "jest --no-cache --verbose --silent --detectOpenHandles --forceExit"
   },
