@@ -1,8 +1,8 @@
-import {Schema, model, Document} from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 import moment from "moment";
 
 // Interface
-import {IDoctors} from '../interfaces/IDoctors';
+import { IDoctors } from '../interfaces/IDoctors';
 
 const setDoctorModel = new Schema({
   name: {
